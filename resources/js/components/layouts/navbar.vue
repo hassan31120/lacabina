@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light navHassan">
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light navHassan">
     <div class="w-99 mb-4 d-flex">
       <router-link
         class="navbar-brand mx-auto mt-3 flex-fill text-center"
@@ -344,7 +344,7 @@
         </button>
       </div>
     </div>
-  </nav>
+  </nav> -->
 
   <nav class="topnav navbar navbar-light">
     <!-- <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">

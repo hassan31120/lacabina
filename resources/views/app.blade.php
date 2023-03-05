@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{{ asset('dash/assets/logoGold.png') }}">
 
-    <title>Almona</title>
+    <title>{{ env('APP_NAME') }}</title>
     <link rel="stylesheet" href="{{ asset('dash/css/simplebar.css') }}">
     <!-- Fonts CSS -->
     <link

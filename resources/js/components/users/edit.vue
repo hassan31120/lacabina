@@ -131,7 +131,11 @@ export default {
     async saveForm() {
       this.loading = true;
       await axios
-        .post(`/api/dash/user/edit/${this.id}`, this.form)
+        .post(`/api/dash/user/edit/${this.id}`, {
+          name: this.form.name,
+          email: this.form.email,
+          number: this.form.number,
+        })
         .then(() => {
           this.user();
           this.alert();
@@ -139,6 +143,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
+          console.log(error);
         });
       this.loading = false;
     },

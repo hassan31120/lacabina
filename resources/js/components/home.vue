@@ -232,7 +232,7 @@ export default {
           this.user = res.data;
         })
         .catch(() => {
-          this.$router.push({ name: "error500" });
+        //   this.$router.push({ name: "error500" });
         });
       this.loading = false;
     },
@@ -244,7 +244,7 @@ export default {
           this.data = res.data;
         })
         .catch(() => {
-          this.$router.push({ name: "error500" });
+        //   this.$router.push({ name: "error500" });
         });
       this.loading = false;
     },

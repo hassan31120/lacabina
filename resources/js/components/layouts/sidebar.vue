@@ -23,6 +23,29 @@
       <ul class="navbar-nav flex-fill w-100 mb-2">
         <li class="nav-item dropdown">
           <a
+            href="#admins"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">المسؤولين</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="admins">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل المسؤولين</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">إضافة مسؤول جديد</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
             href="#members"
             data-toggle="collapse"
             aria-expanded="false"
@@ -45,6 +68,186 @@
           </ul>
         </li>
         <li class="nav-item dropdown">
+          <a
+            href="#noti"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">الإشعارات</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="noti">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">إرسال اشعار جديد</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            href="#city"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">المحافظات</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="city">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل المحافظات</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">إضافة محافظة جديدة</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            href="#cats"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">الأقسام الرئيسية</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="cats">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل الأقسام الرئيسية</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">إضافة قسم جديد</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            href="#subs"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">الأقسام الفرعية</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="subs">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل الأقسام الفرعية</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">إضافة قسم جديد</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            href="#images"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">الصور</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="images">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل الصور</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">إضافة صورة جديدة</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            href="#products"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">المنتجات</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="products">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل المنتجات</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">إضافة منتج جديد</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            href="#settings"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">الإعدادات</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="settings">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل الإعدادات</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">تعديل الإعدادات</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            href="#orders"
+            data-toggle="collapse"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+          >
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">الطلبيات</span>
+          </a>
+          <ul class="collapse list-unstyled pl-4 w-100" id="orders">
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+                ><span class="ml-1 item-text">كل الطلبيات</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+                ><span class="ml-1 item-text">إضافة عضو جديد</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <!-- <li class="nav-item dropdown">
           <a
             href="#data"
             data-toggle="collapse"
@@ -326,7 +529,7 @@
               </router-link>
             </li>
           </ul>
-        </li>
+        </li> -->
       </ul>
       <div class="btn-box w-100 mt-4 mb-1" v-if="log == 1">
         <button

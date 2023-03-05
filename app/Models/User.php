@@ -23,6 +23,10 @@ class User extends Authenticatable
         'password',
         'number',
         'userType',
+        'push_token',
+        'age',
+        'gender',
+        'real_age'
     ];
 
     /**
@@ -43,4 +47,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function addresses(){
+        return $this->hasMany(Address::class, 'user_id');
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function cart(){
+        return $this->hasOne(Cart::class, 'user_id');
+    }
 }

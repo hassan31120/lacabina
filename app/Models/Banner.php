@@ -5,18 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Banner extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'title_en',
-        'image',
-        'is_special'
+        'image'
     ];
-
-    public function subcategories(){
-        return $this->hasMany(SubCategory::class, 'cat_id');
-    }
 }
