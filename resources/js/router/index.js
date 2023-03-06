@@ -4,6 +4,12 @@ import homePage from "../pages/HomePage.vue";
 import allusersPage from "../pages/users/allusersPage.vue";
 import add_userPage from "../pages/users/add_userPage.vue";
 import edit_userPage from "../pages/users/edit_userPage.vue";
+import adminsPage from "../pages/admins/adminsPage.vue";
+import add_adminPage from "../pages/admins/add_adminPage.vue";
+import edit_adminPage from "../pages/admins/edit_adminPage.vue";
+import citiesPage from "../pages/cities/citiesPage.vue";
+import add_cityPage from "../pages/cities/add_cityPage.vue";
+import edit_cityPage from "../pages/cities/edit_cityPage.vue";
 import catsPage from "../pages/cats/catsPage.vue";
 import add_catPage from "../pages/cats/add_catPage.vue";
 import edit_catPage from "../pages/cats/edit_catPage.vue";
@@ -16,6 +22,7 @@ import productsPage from "../pages/products/productsPage.vue";
 import add_productPage from "../pages/products/add_productPage.vue";
 import edit_productPage from "../pages/products/edit_productPage.vue";
 import ordersPage from "../pages/orders/ordersPage.vue";
+import notiPage from "../pages/noti/notiPage.vue";
 
 const routes = [
     {
@@ -89,6 +96,126 @@ const routes = [
         },
     },
     {
+        path: "/edit_user/:id",
+        name: "edit_user",
+        component: edit_userPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch(() => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/admins",
+        name: "admins",
+        component: adminsPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/add_admin",
+        name: "add_admin",
+        component: add_adminPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/edit_admin/:id",
+        name: "edit_admin",
+        component: edit_adminPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch(() => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/cities",
+        name: "cities",
+        component: citiesPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/add_city",
+        name: "add_city",
+        component: add_cityPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/edit_city/:id",
+        name: "edit_city",
+        component: edit_cityPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch(() => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/noti",
+        name: "noti",
+        component: notiPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
         path: "/cats",
         name: "cats",
         component: catsPage,
@@ -122,21 +249,6 @@ const routes = [
         path: "/edit_cat/:id",
         name: "edit_cat",
         component: edit_catPage,
-        beforeEnter: (to, from, next) => {
-            axios
-                .get(`api/authenticated`)
-                .then(() => {
-                    next();
-                })
-                .catch(() => {
-                    return next({ name: "login" });
-                });
-        },
-    },
-    {
-        path: "/edit_user/:id",
-        name: "edit_user",
-        component: edit_userPage,
         beforeEnter: (to, from, next) => {
             axios
                 .get(`api/authenticated`)

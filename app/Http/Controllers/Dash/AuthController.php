@@ -64,9 +64,27 @@ class AuthController extends Controller
 
     public function users()
     {
-        $users = User::paginate(10);
+        $users = User::where('userType', 'user')->paginate(10);
         if (count($users) > 0) {
             return UserResource::collection($users);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such users'
+            ], 404);
+        }
+    }
+
+    public function admins()
+    {
+        $users = User::where('userType', 'admin')->paginate(10);
+        if (count($users) > 0) {
+            return UserResource::collection($users);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such admins'
+            ], 404);
         }
     }
 

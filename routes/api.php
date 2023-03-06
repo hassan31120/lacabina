@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\SubCategoriesController;
+use App\Http\Controllers\Dash\CityController;
+use App\Http\Controllers\Dash\NotiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,11 +88,22 @@ Route::post('delUser', [UserController::class, 'delUser'])->middleware('auth:api
 // this is the start of the dashboard apis :
 Route::group(['prefix' => 'dash', 'middleware' => 'isAdmin'], function () {
     // Users
+    Route::get('admins', [AuthController::class, 'admins']);
     Route::get('users', [AuthController::class, 'users']);
     Route::get('user/show/{id}', [AuthController::class, 'show']);
     Route::post('user/add', [AuthController::class, 'dashRegister']);
     Route::post('user/edit/{id}', [AuthController::class, 'update']);
     Route::post('user/del/{id}', [AuthController::class, 'delUser']);
+
+    //noti
+    Route::post('/push', [NotiController::class, 'push']);
+
+    // cities
+    Route::get('cities', [CityController::class, 'index']);
+    Route::get('city/show/{id}', [CityController::class, 'show']);
+    Route::post('city/add', [CityController::class, 'store']);
+    Route::post('city/edit/{id}', [CityController::class, 'update']);
+    Route::post('city/del/{id}', [CityController::class, 'destroy']);
 });
 
 Route::post('/dashLogin', [AuthController::class, 'dashLogin']);
