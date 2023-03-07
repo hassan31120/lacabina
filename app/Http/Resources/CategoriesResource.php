@@ -19,7 +19,9 @@ class CategoriesResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => app()->getLocale() == 'ar' ?  $this->title : $this->title_en,
-            'image' => asset($this->image)
+            'image' => asset($this->image),
+            'name' => $this->title,
+            'name_en' => $this->title_en,
         ];
     }
 }

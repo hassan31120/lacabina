@@ -120,12 +120,12 @@
           </a>
           <ul class="collapse list-unstyled pl-4 w-100" id="cats">
             <li class="nav-item">
-              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+              <router-link class="nav-link pl-3" :to="{ name: 'cats' }"
                 ><span class="ml-1 item-text">كل الأقسام الرئيسية</span>
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+              <router-link class="nav-link pl-3" :to="{ name: 'add_cat' }"
                 ><span class="ml-1 item-text">إضافة قسم جديد</span>
               </router-link>
             </li>
@@ -143,12 +143,12 @@
           </a>
           <ul class="collapse list-unstyled pl-4 w-100" id="subs">
             <li class="nav-item">
-              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+              <router-link class="nav-link pl-3" :to="{ name: 'subs' }"
                 ><span class="ml-1 item-text">كل الأقسام الفرعية</span>
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+              <router-link class="nav-link pl-3" :to="{ name: 'add_sub' }"
                 ><span class="ml-1 item-text">إضافة قسم جديد</span>
               </router-link>
             </li>

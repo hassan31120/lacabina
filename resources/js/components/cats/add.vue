@@ -1,25 +1,41 @@
 <template>
   <main role="main" class="main-content">
+    <div v-if="loading">
+      <div><loadingPage /></div>
+    </div>
     <div class="container-fluid">
-      <h2 class="h5 page-title pb-5">إضافة قسم جديد</h2>
+      <h2 class="h5 page-title pb-5">إضافة قسم رئيسي جديد</h2>
 
       <form @submit.prevent="saveForm">
         <div class="card shadow mb-4">
           <div class="card-header">
-            <strong class="card-title">إضافة قسم جديد</strong>
+            <strong class="card-title">إضافة قسم رئيسي جديد</strong>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-md-6 align-self-center">
                 <div class="form-group mb-3">
-                  <label for="simpleinput">الإسم</label>
+                  <label for="simpleinput">الاسم بالعربية</label>
                   <input
                     type="text"
                     id="simpleinput"
                     class="form-control"
-                    v-model="this.form.name"
+                    v-model="form.title"
                   />
-                  <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
+                  <span class="text-danger" v-if="errors.title">{{ errors.title[0] }}</span>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="example-email">الاسم بالانجليزية</label>
+                  <input
+                    type="text"
+                    id="example-email"
+                    name="example-email"
+                    class="form-control"
+                    v-model="form.title_en"
+                  />
+                  <span class="text-danger" v-if="errors.title_en">{{
+                    errors.title_en[0]
+                  }}</span>
                 </div>
                 <div class="form-group mb-3">
                   <label for="example-email">الصورة</label>
@@ -50,7 +66,7 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
-                <img src="@/assets/Uploading.gif" alt="" />
+                <img src="@/assets/signup.gif" alt="" />
               </div>
             </div>
           </div>
@@ -61,12 +77,17 @@
 </template>
 
 <script>
+import loadingPage from "../layouts/laoding.vue";
+
 export default {
-  name: "add_cat",
+  name: "add_user",
+  components: { loadingPage },
   data() {
     return {
+      loading: false,
       form: {
-        name: "",
+        title: "",
+        title_en: "",
         image: "",
       },
       errors: [],
@@ -82,7 +103,7 @@ export default {
         animation: false,
         position: "top-right",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 4000,
         timerProgressBar: true,
         didOpen: (toast) => {
           toast.addEventListener("mouseenter", this.$swal.stopTimer);
@@ -91,27 +112,27 @@ export default {
       });
       toastMixin.fire({
         animation: true,
-        title: "تم إضافة القطاع بنجاح",
+        title: "تم إضافة القسم بنجاح",
       });
     },
     async saveForm() {
-        await axios
-        .post(`api/cat/add`, this.form, {
+      this.loading = true;
+      await axios
+        .post(`api/dash/cat/add`, this.form, {
           headers: {
             Accept: "application/json",
             "Content-Type": "multipart/form-data",
           },
         })
         .then(() => {
-          (this.form.name = ""), (this.form.image = ""), (this.$refs.file.value = null);
           this.$router.push({ name: "cats" });
           this.alert();
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
+      this.loading = false;
     },
-
     selectFile() {
       this.form.image = this.$refs.file.files[0];
     },

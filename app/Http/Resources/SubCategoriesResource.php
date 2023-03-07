@@ -21,7 +21,10 @@ class SubCategoriesResource extends JsonResource
             'id' => $this->id,
             'title' => app()->getLocale() == 'ar' ?  $this->title : $this->title_en,
             'cat_id' => $this->cat_id,
-            'products' => ProductsResource::collection($this->products)
+            'products' => ProductsResource::collection($this->products),
+            'name' => $this->title,
+            'name_en' => $this->title_en,
+            'cat' => $this->categories->title
         ];
     }
 }

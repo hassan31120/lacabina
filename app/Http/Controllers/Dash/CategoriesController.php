@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoriesResource;
 use App\Models\Category;
-use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -12,38 +12,24 @@ use Illuminate\Support\Facades\File;
 
 class CategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        Carbon::setLocale('ar');
-        $categories = Category::where('is_special', 0)->get();
-        return view('admin.categories.index', compact('categories'));
+        $categories = Category::where('is_special', 0)->paginate(6);
+        if (count($categories) > 0) {
+            return CategoriesResource::collection($categories);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such categories'
+            ], 404);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.categories.add');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required',
+            'title_en' => 'required',
             'image' => 'required'
         ]);
 
@@ -56,53 +42,27 @@ class CategoriesController extends Controller
             $file->move($filepath, $filename);
             $data['image'] = $filename;
         }
-        if ($request->hasFile('image2')) {
-            $file = $request->file('image2');
-            $filepath = 'storage/images/products/' . date('Y') . '/' . date('m') . '/';
-            $filename = $filepath . time() . '-' . $file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            $data['image2'] = $filename;
-        }
-        if ($request->hasFile('image3')) {
-            $file = $request->file('image3');
-            $filepath = 'storage/images/products/' . date('Y') . '/' . date('m') . '/';
-            $filename = $filepath . time() . '-' . $file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            $data['image3'] = $filename;
-        }
-        if ($request->hasFile('image4')) {
-            $file = $request->file('image4');
-            $filepath = 'storage/images/products/' . date('Y') . '/' . date('m') . '/';
-            $filename = $filepath . time() . '-' . $file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            $data['image4'] = $filename;
-        }
-        if ($request->hasFile('image5')) {
-            $file = $request->file('image5');
-            $filepath = 'storage/images/products/' . date('Y') . '/' . date('m') . '/';
-            $filename = $filepath . time() . '-' . $file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            $data['image5'] = $filename;
-        }
-
         Category::create($data);
-
-        return redirect(route('admin.categories'))->with('success', 'تم اضافة الشركة بنجاح');
+        return response()->json([
+            'success' => true,
+            'message' => 'cat has been added successfully'
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        Carbon::setLocale('ar');
         $category = Category::find($id);
-        $subs = SubCategory::where('cat_id', $id)->get();
-        return view('admin.categories.show', compact('category', 'subs'));
-
+        if ($category) {
+            return response()->json([
+                'success' => true,
+                'cat' => new CategoriesResource($category)
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such cat'
+            ], 404);
+        }
     }
 
     public function showCat($id)
@@ -112,130 +72,63 @@ class CategoriesController extends Controller
         if ($sub) {
             $category = Category::where('id', $sub->cat_id)->first();
             return view('admin.categories.showCat', compact('sub', 'category'));
-        }else{
+        } else {
             return view('admin.categories.showCat', compact('sub'));
         }
-
-
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $category = Category::find($id);
-        return view('admin.categories.edit', compact('category'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $category = Category::find($id);
-        $request->validate([
-            'title' => 'required',
-            'title_en' => 'required'
-        ]);
+        if ($category) {
+            $request->validate([
+                'title' => 'required',
+                'title_en' => 'required'
+            ]);
 
-        $data = $request->except(['old-image']);
+            $data = $request->except(['old-image']);
 
-        if($request->hasfile('image')){
-            $file = $request->file('image');
-            $filepath = 'storage/images/categories/'.date('Y').'/'.date('m').'/';
-            $filename =$filepath.time().'-'.$file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            if(request('old-image')){
-                $oldpath=request('old-image');
-                if(File::exists($oldpath)){
-                    unlink($oldpath);
+            if ($request->hasfile('image')) {
+                $file = $request->file('image');
+                $filepath = 'storage/images/categories/' . date('Y') . '/' . date('m') . '/';
+                $filename = $filepath . time() . '-' . $file->getClientOriginalName();
+                $file->move($filepath, $filename);
+                if (request('old-image')) {
+                    $oldpath = request('old-image');
+                    if (File::exists($oldpath)) {
+                        unlink($oldpath);
+                    }
                 }
-
+                $data['image'] = $filename;
             }
-          $data['image'] = $filename;
+
+            $category->update($data);
+            return response()->json([
+                'success' => true,
+                'message' => 'cat has been updated successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such cat'
+            ], 404);
         }
-
-
-        if($request->hasfile('image2')){
-            $file = $request->file('image2');
-            $filepath = 'storage/images/products/'.date('Y').'/'.date('m').'/';
-            $filename =$filepath.time().'-'.$file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            if(request('old-image2')){
-                $oldpath=request('old-image2');
-                if(File::exists($oldpath)){
-                    unlink($oldpath);
-                }
-            }
-          $data['image2'] = $filename;
-        }
-
-        if($request->hasfile('image3')){
-            $file = $request->file('image3');
-            $filepath = 'storage/images/products/'.date('Y').'/'.date('m').'/';
-            $filename =$filepath.time().'-'.$file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            if(request('old-image3')){
-                $oldpath=request('old-image3');
-                if(File::exists($oldpath)){
-                    unlink($oldpath);
-                }
-            }
-          $data['image3'] = $filename;
-        }
-
-        if($request->hasfile('image4')){
-            $file = $request->file('image4');
-            $filepath = 'storage/images/products/'.date('Y').'/'.date('m').'/';
-            $filename =$filepath.time().'-'.$file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            if(request('old-image4')){
-                $oldpath=request('old-image4');
-                if(File::exists($oldpath)){
-                    unlink($oldpath);
-                }
-            }
-          $data['image4'] = $filename;
-        }
-
-        if($request->hasfile('image5')){
-            $file = $request->file('image5');
-            $filepath = 'storage/images/products/'.date('Y').'/'.date('m').'/';
-            $filename =$filepath.time().'-'.$file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            if(request('old-image5')){
-                $oldpath=request('old-image5');
-                if(File::exists($oldpath)){
-                    unlink($oldpath);
-                }
-            }
-          $data['image5'] = $filename;
-        }
-
-
-        $category->update($data);
-
-        return redirect()->back()->with('success', 'تم تعديل الشركة بنجاح');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $category = Category::find($id);
-        $category->delete();
-        return redirect(route('admin.categories'))->with('success', 'تم حذف الشركة بنجاح');
+        if ($category) {
+            $category->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'cat has been deleted successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such cat'
+            ], 404);
+        }
     }
 }

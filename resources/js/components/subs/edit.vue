@@ -20,7 +20,9 @@
                     class="form-control"
                     v-model="form.name"
                   />
-                  <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
+                  <span class="text-danger" v-if="errors.title">{{
+                    errors.title[0]
+                  }}</span>
                 </div>
                 <div class="form-group mb-3">
                   <label for="example-email">الاسم بالانجليزية</label>
@@ -31,22 +33,19 @@
                     class="form-control"
                     v-model="form.name_en"
                   />
-                  <span class="text-danger" v-if="errors.price">{{
-                    errors.price[0]
+                  <span class="text-danger" v-if="errors.title_en">{{
+                    errors.title_en[0]
                   }}</span>
                 </div>
                 <div class="form-group mb-3">
-                  <label for="example-email">الصورة</label>
-                  <input
-                    type="file"
-                    id="example-email"
-                    name="example-email"
-                    class="form-control"
-                    ref="file"
-                    @change="selectFile"
-                  />
-                  <span class="text-danger" v-if="errors.price">{{
-                    errors.price[0]
+                  <label for="cat_id">القسم الرئيسي</label>
+                  <select id="cat_id" class="form-control" v-model="form.cat_id">
+                    <option v-for="cat in cats" :key="cat.id" :value="cat.id">
+                      {{ cat.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger" v-if="errors.cat_id">{{
+                    errors.cat_id[0]
                   }}</span>
                 </div>
                 <button
@@ -64,7 +63,7 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
-                <img :src="form.image" alt="image" class="img-thumbnail" />
+                <img src="@/assets/signup.gif" alt="" />
               </div>
             </div>
           </div>
@@ -78,7 +77,7 @@
 import loadingPage from "../layouts/laoding.vue";
 
 export default {
-  name: "edit_cat",
+  name: "edit_sub",
   components: { loadingPage },
   data() {
     return {
@@ -86,14 +85,16 @@ export default {
       form: {
         title: "",
         title_en: "",
-        image: "",
+        cat_id: "",
       },
+      cats: [],
       errors: [],
       id: this.$route.params.id,
     };
   },
   mounted() {
-    this.cat();
+    this.sub();
+    this.fetchcats();
   },
   methods: {
     alert() {
@@ -116,12 +117,12 @@ export default {
         title: "تم تعديل القسم بنجاح",
       });
     },
-    async cat() {
+    async sub() {
       this.loading = true;
       await axios
-        .get(`/api/dash/cat/show/${this.id}`)
+        .get(`/api/dash/sub/show/${this.id}`)
         .then((res) => {
-          this.form = res.data.cat;
+          this.form = res.data.sub;
         })
         .catch(() => {
           this.$router.push({ name: "error404" });
@@ -131,33 +132,32 @@ export default {
     async saveForm() {
       this.loading = true;
       await axios
-        .post(
-          `/api/dash/cat/edit/${this.id}`,
-          {
-            title: this.form.name,
-            title_en: this.form.name_en,
-            image: this.form.image,
-          },
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .post(`/api/dash/sub/edit/${this.id}`, {
+          title: this.form.name,
+          title_en: this.form.name_en,
+          cat_id: this.form.cat_id,
+        })
         .then(() => {
-          this.cat();
+          this.sub();
           this.alert();
           this.errors = [];
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
-          console.log(error);
         });
       this.loading = false;
     },
-    selectFile() {
-      this.form.image = this.$refs.file.files[0];
+    async fetchcats() {
+      this.loading = true;
+      await axios
+        .get(`/api/dash/catswithoutpagination`)
+        .then((res) => {
+          this.cats = res.data.data;
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+      this.loading = false;
     },
   },
 };

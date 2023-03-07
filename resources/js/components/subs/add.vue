@@ -4,10 +4,12 @@
       <div><loadingPage /></div>
     </div>
     <div class="container-fluid">
+      <h2 class="h5 page-title pb-5">إضافة قسم فرعي جديد</h2>
+
       <form @submit.prevent="saveForm">
         <div class="card shadow mb-4">
           <div class="card-header">
-            <strong class="card-title">تعديل القسم</strong>
+            <strong class="card-title">إضافة قسم فرعي جديد</strong>
           </div>
           <div class="card-body">
             <div class="row">
@@ -18,9 +20,11 @@
                     type="text"
                     id="simpleinput"
                     class="form-control"
-                    v-model="form.name"
+                    v-model="form.title"
                   />
-                  <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
+                  <span class="text-danger" v-if="errors.title">{{
+                    errors.title[0]
+                  }}</span>
                 </div>
                 <div class="form-group mb-3">
                   <label for="example-email">الاسم بالانجليزية</label>
@@ -29,24 +33,21 @@
                     id="example-email"
                     name="example-email"
                     class="form-control"
-                    v-model="form.name_en"
+                    v-model="form.title_en"
                   />
-                  <span class="text-danger" v-if="errors.price">{{
-                    errors.price[0]
+                  <span class="text-danger" v-if="errors.title_en">{{
+                    errors.title_en[0]
                   }}</span>
                 </div>
                 <div class="form-group mb-3">
-                  <label for="example-email">الصورة</label>
-                  <input
-                    type="file"
-                    id="example-email"
-                    name="example-email"
-                    class="form-control"
-                    ref="file"
-                    @change="selectFile"
-                  />
-                  <span class="text-danger" v-if="errors.price">{{
-                    errors.price[0]
+                  <label for="cat_id">القسم الرئيسي</label>
+                  <select id="cat_id" class="form-control" v-model="form.cat_id">
+                    <option v-for="cat in cats" :key="cat.id" :value="cat.id">
+                      {{ cat.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger" v-if="errors.cat_id">{{
+                    errors.cat_id[0]
                   }}</span>
                 </div>
                 <button
@@ -64,7 +65,7 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
-                <img :src="form.image" alt="image" class="img-thumbnail" />
+                <img src="@/assets/signup.gif" alt="" />
               </div>
             </div>
           </div>
@@ -78,7 +79,7 @@
 import loadingPage from "../layouts/laoding.vue";
 
 export default {
-  name: "edit_cat",
+  name: "add_sub",
   components: { loadingPage },
   data() {
     return {
@@ -86,14 +87,14 @@ export default {
       form: {
         title: "",
         title_en: "",
-        image: "",
+        cat_id: "",
       },
+      cats: [],
       errors: [],
-      id: this.$route.params.id,
     };
   },
   mounted() {
-    this.cat();
+    this.fetchcats();
   },
   methods: {
     alert() {
@@ -113,51 +114,33 @@ export default {
       });
       toastMixin.fire({
         animation: true,
-        title: "تم تعديل القسم بنجاح",
+        title: "تم إضافة القسم بنجاح",
       });
-    },
-    async cat() {
-      this.loading = true;
-      await axios
-        .get(`/api/dash/cat/show/${this.id}`)
-        .then((res) => {
-          this.form = res.data.cat;
-        })
-        .catch(() => {
-          this.$router.push({ name: "error404" });
-        });
-      this.loading = false;
     },
     async saveForm() {
       this.loading = true;
       await axios
-        .post(
-          `/api/dash/cat/edit/${this.id}`,
-          {
-            title: this.form.name,
-            title_en: this.form.name_en,
-            image: this.form.image,
-          },
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
+        .post(`/api/dash/sub/add`, this.form)
         .then(() => {
-          this.cat();
+          this.$router.push({ name: "subs" });
           this.alert();
-          this.errors = [];
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
-          console.log(error);
         });
       this.loading = false;
     },
-    selectFile() {
-      this.form.image = this.$refs.file.files[0];
+    async fetchcats() {
+      this.loading = true;
+      await axios
+        .get(`api/dash/catswithoutpagination`)
+        .then((res) => {
+          this.cats = res.data.data;
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+      this.loading = false;
     },
   },
 };

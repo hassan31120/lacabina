@@ -4,27 +4,27 @@
       <div><loadingPage /></div>
     </div>
     <div class="container-fluid">
-      <h2 class="h5 page-title pb-5">كل الأقسام الرئيسية</h2>
+      <h2 class="h5 page-title pb-5">كل الأقسام الفرعية</h2>
 
       <table class="table mt-5 table-hover">
         <thead style="background-color: #e4b75d">
           <tr>
             <th scope="col">#</th>
             <th scope="col">الاسم</th>
-            <th scope="col">الصورة</th>
+            <th scope="col">القسم الرئيسي</th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(cat, index) in cats" :key="cat.id">
+          <tr v-for="(sub, index) in subs" :key="sub.id">
             <th scope="row">{{ index + 1 }}</th>
-            <td>{{ cat.name }}</td>
-            <td><img :src="cat.image" alt="cat" class="img-thumbnail" width="130" /></td>
+            <td>{{ sub.name }}</td>
+            <td>{{ sub.cat }}</td>
             <td class="actions">
-              <router-link :to="{ name: 'edit_cat', params: { id: cat.id } }">
+              <router-link :to="{ name: 'edit_sub', params: { id: sub.id } }">
                 <button type="button"><i class="fe fe-edit fe-16"></i></button
               ></router-link>
-              <button type="button" @click="delcat(cat.id)">
+              <button type="button" @click="delsub(sub.id)">
                 <i class="fe fe-trash fe-16"></i>
               </button>
             </td>
@@ -44,7 +44,7 @@
               class="page-link"
               href="#"
               v-html="link.label"
-              @click="fetchcats(link.url)"
+              @click="fetchsubs(link.url)"
             ></a>
           </li>
         </ul>
@@ -57,20 +57,20 @@
 import loadingPage from "../layouts/laoding.vue";
 
 export default {
-  name: "cats",
+  name: "subs",
   components: { loadingPage },
   data() {
     return {
-      cats: [],
+      subs: [],
       loading: false,
       pagination: {},
     };
   },
   mounted() {
-    this.fetchcats();
+    this.fetchsubs();
   },
   methods: {
-    delcat(id) {
+    delsub(id) {
       this.$swal
         .fire({
           title: "هل انت متأكد؟",
@@ -84,19 +84,19 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            axios.post(`api/dash/cat/del/${id}`);
+            axios.post(`api/dash/sub/del/${id}`);
             this.$swal.fire("تم!", "تم الحذف بنجاح", "success");
-            this.fetchcats();
+            this.fetchsubs();
           }
         });
     },
-    async fetchcats(page_url) {
+    async fetchsubs(page_url) {
       this.loading = true;
-      page_url = page_url || `api/dash/cats`;
+      page_url = page_url || `api/dash/subs`;
       await axios
         .get(page_url)
         .then((res) => {
-          this.cats = res.data.data;
+          this.subs = res.data.data;
           this.makePagination(res.data.meta);
         })
         .catch(() => {

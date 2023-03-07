@@ -3,111 +3,91 @@
 namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SubCategoriesResource;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class SubCategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        Carbon::setLocale('ar');
-        $subs = SubCategory::where('is_special', 0)->get();
-        return view('admin.subs.index', compact('subs'));
+        $subs = SubCategory::where('is_special', 0)->paginate(10);
+        if (count($subs) > 0) {
+            return SubCategoriesResource::collection($subs);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such subs'
+            ], 404);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $categories = Category::where('is_special', 0)->get();
-        return view('admin.subs.add', compact('categories'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required'
+            'title' => 'required',
+            'title_en' => 'required'
         ]);
-
         $data = $request->all();
-
         SubCategory::create($data);
-
-        return redirect(route('admin.subs'))->with('success', 'تم اضافة القسم بنجاح');
+        return response()->json([
+            'success' => true,
+            'message' => 'subcat has been added successfully'
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $categories = Category::where('is_special', 0)->get();
         $sub = SubCategory::find($id);
-        return view('admin.subs.edit', compact('sub', 'categories'));
+        if ($sub) {
+            return response()->json([
+                'success' => true,
+                'sub' => new SubCategoriesResource($sub)
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such subcat'
+            ], 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $sub = SubCategory::find($id);
-
-        $request->validate([
-            'title' => 'required'
-        ]);
-
-        $data = $request->all();
-
-        $sub->update($data);
-
-        return redirect()->back()->with('success', 'تم تعديل القسم بنجاح');
+        if ($sub) {
+            $request->validate([
+                'title' => 'required'
+            ]);
+            $data = $request->all();
+            $sub->update($data);
+            return response()->json([
+                'success' => true,
+                'message' => 'subcat has been updated successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such subcat'
+            ], 404);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $sub = SubCategory::find($id);
-        $sub->delete();
-        return redirect(route('admin.subs'))->with('success', 'تم حذف القسم بنجاح');
+        if ($sub) {
+            $sub->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'subcat has been deleted successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such subcat'
+            ], 404);
+        }
     }
 }

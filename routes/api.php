@@ -1,20 +1,23 @@
 <?php
 
+use App\Http\Controllers\Api\AddressesController;
 use App\Http\Controllers\Dash\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController as Auth;
+use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoriesController;
-use App\Http\Controllers\Api\MasajedController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\SubCategoriesController;
+use App\Http\Controllers\Dash\CategoriesController as DashCategoriesController;
 use App\Http\Controllers\Dash\CityController;
 use App\Http\Controllers\Dash\NotiController;
+use App\Http\Controllers\Dash\SubCategoriesController as DashSubCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +107,21 @@ Route::group(['prefix' => 'dash', 'middleware' => 'isAdmin'], function () {
     Route::post('city/add', [CityController::class, 'store']);
     Route::post('city/edit/{id}', [CityController::class, 'update']);
     Route::post('city/del/{id}', [CityController::class, 'destroy']);
+
+    // categories
+    Route::get('cats', [DashCategoriesController::class, 'index']);
+    Route::get('catswithoutpagination', [CategoriesController::class, 'index']);
+    Route::get('cat/show/{id}', [DashCategoriesController::class, 'show']);
+    Route::post('cat/add', [DashCategoriesController::class, 'store']);
+    Route::post('cat/edit/{id}', [DashCategoriesController::class, 'update']);
+    Route::post('cat/del/{id}', [DashCategoriesController::class, 'destroy']);
+
+    // sub cats
+    Route::get('subs', [DashSubCategoriesController::class, 'index']);
+    Route::get('sub/show/{id}', [DashSubCategoriesController::class, 'show']);
+    Route::post('sub/add', [DashSubCategoriesController::class, 'store']);
+    Route::post('sub/edit/{id}', [DashSubCategoriesController::class, 'update']);
+    Route::post('sub/del/{id}', [DashSubCategoriesController::class, 'destroy']);
 });
 
 Route::post('/dashLogin', [AuthController::class, 'dashLogin']);
