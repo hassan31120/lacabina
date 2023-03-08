@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BannersResource;
 use App\Models\Banner;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 
 class BannersController extends Controller
@@ -17,27 +17,17 @@ class BannersController extends Controller
      */
     public function index()
     {
-        Carbon::setLocale('ar');
-        $banners = Banner::all();
-        return view('admin.banners.index', compact('banners'));
+        $banners = Banner::paginate(6);
+        if (count($banners) > 0) {
+            return BannersResource::collection($banners);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such banners'
+            ], 404);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.banners.add');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -56,76 +46,73 @@ class BannersController extends Controller
 
         Banner::create($data);
 
-        return redirect(route('admin.banners'))->with('success', 'تم اضافة الصورة بنجاح');
+        return response()->json([
+            'success' => true,
+            'message' => 'banner has been added successfully'
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
         $banner = Banner::find($id);
-        return view('admin.banners.edit', compact('banner'));
+        if ($banner) {
+            return response()->json([
+                'success' => true,
+                'banner' => new BannersResource($banner)
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such banner'
+            ], 404);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $banner = Banner::find($id);
-
-        $data = $request->except(['old-image']);
-
-        if($request->hasfile('image')){
-            $file = $request->file('image');
-            $filepath = 'storage/images/banners/'.date('Y').'/'.date('m').'/';
-            $filename =$filepath.time().'-'.$file->getClientOriginalName();
-            $file->move($filepath, $filename);
-            if(request('old-image')){
-                $oldpath=request('old-image');
-                if(File::exists($oldpath)){
-                    unlink($oldpath);
+        if ($banner) {
+            $data = $request->except(['old-image']);
+            if ($request->hasfile('image')) {
+                $file = $request->file('image');
+                $filepath = 'storage/images/banners/' . date('Y') . '/' . date('m') . '/';
+                $filename = $filepath . time() . '-' . $file->getClientOriginalName();
+                $file->move($filepath, $filename);
+                if (request('old-image')) {
+                    $oldpath = request('old-image');
+                    if (File::exists($oldpath)) {
+                        unlink($oldpath);
+                    }
                 }
-
+                $data['image'] = $filename;
             }
-          $data['image'] = $filename;
+            $banner->update($data);
+            return response()->json([
+                'success' => true,
+                'message' => 'banner has been updated successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such banner'
+            ], 404);
         }
-
-        $banner->update($data);
-
-        return redirect()->back()->with('success', 'تم تعديل الصورة بنجاح');
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $banner = Banner::find($id);
-        $banner->delete();
-        return redirect(route('admin.banners'))->with('success', 'تم حذف الصورة بنجاح');
+        if ($banner) {
+            $banner->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'banner has been deleted successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such banner'
+            ], 404);
+        }
     }
 }

@@ -4,31 +4,35 @@
       <div><loadingPage /></div>
     </div>
     <div class="container-fluid">
-      <h2 class="h5 page-title pb-5">كل المنتجات</h2>
+      <h2 class="h5 page-title pb-5">كل الصور</h2>
+
+      <!-- <viewer :images="banners">
+        <img v-for="src in banners" :key="src" :src="src.image" class="img-thumbnail" />
+      </viewer> -->
 
       <table class="table mt-5 table-hover">
         <thead style="background-color: #e4b75d">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">الإسم</th>
-            <th scope="col">الصور</th>
-            <th scope="col">السعر</th>
+            <th scope="col">الاسم</th>
+            <th scope="col">الصورة</th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(product, index) in products" :key="product.id">
+          <tr v-for="(banner, index) in banners" :key="banner.id">
             <th scope="row">{{ index + 1 }}</th>
-            <td>{{ product.name }}</td>
+            <td>{{ banner.title }}</td>
             <td>
-                <button type="button" @click="show(product.images)" class="btn btn-hassan">عرض الصور</button>
+              <viewer>
+                <img :src="banner.image" alt="banner" class="img-thumbnail" width="130" />
+              </viewer>
             </td>
-            <td>{{ product.new_price }}</td>
             <td class="actions">
-              <router-link :to="{ name: 'edit_product', params: { id: product.id } }">
+              <router-link :to="{ name: 'edit_banner', params: { id: banner.id } }">
                 <button type="button"><i class="fe fe-edit fe-16"></i></button
               ></router-link>
-              <button type="button" @click="delCat(product.id)">
+              <button type="button" @click="delbanner(banner.id)">
                 <i class="fe fe-trash fe-16"></i>
               </button>
             </td>
@@ -48,7 +52,7 @@
               class="page-link"
               href="#"
               v-html="link.label"
-              @click="fetchproducts(link.url)"
+              @click="fetchbanners(link.url)"
             ></a>
           </li>
         </ul>
@@ -59,23 +63,22 @@
 
 <script>
 import loadingPage from "../layouts/laoding.vue";
-import axios from "axios";
 
 export default {
-  name: "products",
+  name: "banners",
   components: { loadingPage },
   data() {
     return {
-      products: [],
+      banners: [],
       loading: false,
       pagination: {},
     };
   },
   mounted() {
-    this.fetchproducts();
+    this.fetchbanners();
   },
   methods: {
-    delCat(id) {
+    delbanner(id) {
       this.$swal
         .fire({
           title: "هل انت متأكد؟",
@@ -89,20 +92,19 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            axios.post(`/api/dash/product/del/${id}`);
+            axios.post(`api/dash/banner/del/${id}`);
             this.$swal.fire("تم!", "تم الحذف بنجاح", "success");
-            this.fetchproducts();
+            this.fetchbanners();
           }
         });
     },
-
-    async fetchproducts(page_url) {
+    async fetchbanners(page_url) {
       this.loading = true;
-      page_url = page_url || `api/dash/products`;
+      page_url = page_url || `api/dash/banners`;
       await axios
         .get(page_url)
         .then((res) => {
-          this.products = res.data.data;
+          this.banners = res.data.data;
           this.makePagination(res.data.meta);
         })
         .catch(() => {
@@ -116,12 +118,6 @@ export default {
         links: meta.links,
       };
       this.pagination = pagination;
-    },
-
-    show(images) {
-      this.$viewerApi({
-        images: images,
-      });
     },
   },
 };

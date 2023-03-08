@@ -14,9 +14,11 @@ use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\SubCategoriesController;
+use App\Http\Controllers\Dash\BannersController as DashBannersController;
 use App\Http\Controllers\Dash\CategoriesController as DashCategoriesController;
 use App\Http\Controllers\Dash\CityController;
 use App\Http\Controllers\Dash\NotiController;
+use App\Http\Controllers\Dash\ProductsController as DashProductsController;
 use App\Http\Controllers\Dash\SubCategoriesController as DashSubCategoriesController;
 
 /*
@@ -118,10 +120,25 @@ Route::group(['prefix' => 'dash', 'middleware' => 'isAdmin'], function () {
 
     // sub cats
     Route::get('subs', [DashSubCategoriesController::class, 'index']);
+    Route::get('subswithoutpagination', [SubCategoriesController::class, 'index']);
     Route::get('sub/show/{id}', [DashSubCategoriesController::class, 'show']);
     Route::post('sub/add', [DashSubCategoriesController::class, 'store']);
     Route::post('sub/edit/{id}', [DashSubCategoriesController::class, 'update']);
     Route::post('sub/del/{id}', [DashSubCategoriesController::class, 'destroy']);
+
+    // banners
+    Route::get('banners', [DashBannersController::class, 'index']);
+    Route::get('banner/show/{id}', [DashBannersController::class, 'show']);
+    Route::post('banner/add', [DashBannersController::class, 'store']);
+    Route::post('banner/edit/{id}', [DashBannersController::class, 'update']);
+    Route::post('banner/del/{id}', [DashBannersController::class, 'destroy']);
+
+    // products
+    Route::get('products', [DashproductsController::class, 'index']);
+    Route::get('product/show/{id}', [DashproductsController::class, 'show']);
+    Route::post('product/add', [DashproductsController::class, 'store']);
+    Route::post('product/edit/{id}', [DashproductsController::class, 'update']);
+    Route::post('product/del/{id}', [DashproductsController::class, 'destroy']);
 });
 
 Route::post('/dashLogin', [AuthController::class, 'dashLogin']);

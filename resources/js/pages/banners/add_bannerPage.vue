@@ -2,17 +2,17 @@
   <div class="wrapper">
     <navbar />
     <sidebar />
-    <all_cats />
+    <add_banner />
   </div>
 </template>
 
 <script>
 import navbar from "../../components/layouts/navbar.vue";
 import sidebar from "../../components/layouts/sidebar.vue";
-import all_cats from "../../components/products/all_cats.vue";
+import add_banner from "../../components/banners/add.vue";
 export default {
-  name: "productCatsPage",
-  components: { navbar, sidebar, all_cats },
+  name: "add_bannerPage",
+  components: { navbar, sidebar, add_banner },
 };
 </script>
 

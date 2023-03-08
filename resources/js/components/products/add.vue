@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-md-6 align-self-center">
                 <div class="form-group mb-3">
-                  <label for="title">العنوان</label>
+                  <label for="title">العنوان بالعربية</label>
                   <input
                     type="text"
                     id="title"
@@ -25,28 +25,52 @@
                     errors.title[0]
                   }}</span>
                 </div>
-                <div class="form-group mb-3" style="direction: ltr !important">
-                  <label for="desc">الوصف</label>
-                  <QuillEditor
-                    theme="snow"
-                    v-model:content="form.desc"
-                    content-type="html"
-                    toolbar="full"
-                  />
-                  <span class="text-danger" v-if="errors.desc">{{ errors.desc[0] }}</span>
-                </div>
-                <div class="form-group mb-3" style="direction: ltr !important">
-                  <label for="ads">المميزات</label>
-                  <QuillEditor
-                    theme="snow"
-                    v-model:content="form.ads"
-                    content-type="html"
-                    toolbar="full"
-                  />
-                  <span class="text-danger" v-if="errors.ads">{{ errors.ads[0] }}</span>
-                </div>
                 <div class="form-group mb-3">
-                  <label for="image">الصورة</label>
+                  <label for="description">الوصف بالعربية</label>
+                  <textarea
+                    id="description"
+                    cols="30"
+                    rows="7"
+                    v-model="form.description"
+                    required
+                    class="form-control"
+                  ></textarea>
+                  <span class="text-danger" v-if="errors.description">{{
+                    errors.description[0]
+                  }}</span>
+                </div>
+
+                <div class="row">
+                  <div class="form-group mb-3 col-6">
+                    <label for="old_price">السعر القديم</label>
+                    <input
+                      type="text"
+                      id="old_price"
+                      class="form-control"
+                      v-model="form.old_price"
+                      required
+                    />
+                    <span class="text-danger" v-if="errors.old_price">{{
+                      errors.old_price[0]
+                    }}</span>
+                  </div>
+                  <div class="form-group mb-3 col-6">
+                    <label for="new_price">السعر الجديد</label>
+                    <input
+                      type="text"
+                      id="new_price"
+                      class="form-control"
+                      v-model="form.new_price"
+                      required
+                    />
+                    <span class="text-danger" v-if="errors.new_price">{{
+                      errors.new_price[0]
+                    }}</span>
+                  </div>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="image">الصور</label>
                   <input
                     type="file"
                     id="image"
@@ -55,70 +79,69 @@
                     ref="image"
                     @change="selectImage"
                     required
+                    multiple
                   />
                   <span class="text-danger" v-if="errors.image">{{
                     errors.image[0]
                   }}</span>
                 </div>
-                <div class="form-group mb-3">
-                  <label for="price">السعر</label>
-                  <input
-                    type="text"
-                    id="price"
-                    class="form-control"
-                    v-model="form.price"
-                    required
-                  />
-                  <span class="text-danger" v-if="errors.price">{{
-                    errors.price[0]
-                  }}</span>
-                </div>
-                <div class="form-group mb-3">
-                  <label for="ref1">لينك الموقع</label>
-                  <input type="text" id="ref1" class="form-control" v-model="form.ref1" />
-                  <span class="text-danger" v-if="errors.ref1">{{ errors.ref1[0] }}</span>
-                </div>
-                <div class="row">
-                  <div class="form-group mb-3 col-6">
-                    <label for="ref2">لينك جوجل بلاي</label>
-                    <input
-                      type="text"
-                      id="ref2"
-                      class="form-control"
-                      v-model="form.ref2"
-                    />
-                    <span class="text-danger" v-if="errors.ref2">{{
-                      errors.ref2[0]
-                    }}</span>
-                  </div>
-                  <div class="form-group mb-3 col-6">
-                    <label for="ref3">لينك اب ستور</label>
-                    <input
-                      type="text"
-                      id="ref3"
-                      class="form-control"
-                      v-model="form.ref3"
-                    />
-                    <span class="text-danger" v-if="errors.ref3">{{
-                      errors.ref3[0]
-                    }}</span>
-                  </div>
-                </div>
-                <div class="form-group mb-3">
-                  <label for="cat_id">القسم</label>
-                  <select v-model="form.cat_id" class="form-control" id="cat_id" required>
-                    <option :value="cat.id" v-for="cat in cats" :key="cat.id">
-                      {{ cat.name }}
-                    </option>
-                  </select>
-                  <span class="text-danger" v-if="errors.cat_id">{{
-                    errors.cat_id[0]
-                  }}</span>
-                </div>
               </div>
               <!-- /.col -->
               <div class="col-md-6 align-self-center">
-                <img src="@/assets/UsabilityTesting.gif" alt="" />
+                <div class="form-group mb-3">
+                  <label for="title_en">العنوان بالإنجليزية</label>
+                  <input
+                    type="text"
+                    id="title_en"
+                    class="form-control"
+                    v-model="form.title_en"
+                    required
+                  />
+                  <span class="text-danger" v-if="errors.title_en">{{
+                    errors.title_en[0]
+                  }}</span>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="description_en">الوصف بالإنجليزية</label>
+                  <textarea
+                    id="description_en"
+                    cols="30"
+                    rows="7"
+                    v-model="form.description_en"
+                    required
+                    class="form-control"
+                  ></textarea>
+                  <span class="text-danger" v-if="errors.description_en">{{
+                    errors.description_en[0]
+                  }}</span>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="amount">الكمية</label>
+                  <input
+                    type="text"
+                    id="amount"
+                    class="form-control"
+                    v-model="form.amount"
+                    required
+                  />
+                  <span class="text-danger" v-if="errors.amount">{{
+                    errors.amount[0]
+                  }}</span>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="sub_id">القسم</label>
+                  <select v-model="form.sub_id" class="form-control" id="sub_id" required>
+                    <option :value="sub.id" v-for="sub in subs" :key="sub.id">
+                      {{ sub.name }}
+                    </option>
+                  </select>
+                  <span class="text-danger" v-if="errors.sub_id">{{
+                    errors.sub_id[0]
+                  }}</span>
+                </div>
               </div>
               <button
                 type="submit"
@@ -151,21 +174,21 @@ export default {
       loading: false,
       form: {
         title: "",
-        desc: "",
-        image: "",
-        price: "",
-        ref1: "",
-        ref2: "",
-        ref3: "",
-        ads: "",
-        cat_id: "",
+        title_en: "",
+        description: "",
+        description_en: "",
+        amount: "",
+        old_price: "",
+        new_price: "",
+        sub_id: "",
+        images: [],
       },
       errors: [],
-      cats: [],
+      subs: [],
     };
   },
   mounted() {
-    this.fetchCats();
+    this.fetchSubs();
   },
   methods: {
     alert() {
@@ -185,13 +208,13 @@ export default {
       });
       toastMixin.fire({
         animation: true,
-        title: "تم إضافة التطبيق بنجاح",
+        title: "تم إضافة المنتج بنجاح",
       });
     },
     async saveForm() {
       this.loading = true;
       await axios
-        .post(`api/dash/product/store`, this.form, {
+        .post(`api/dash/product/add`, this.form, {
           headers: {
             Accept: "application/json",
             "Content-Type": "multipart/form-data",
@@ -207,12 +230,12 @@ export default {
       this.loading = false;
     },
 
-    async fetchCats() {
+    async fetchSubs() {
       this.loading = true;
       await axios
-        .get(`/api/dash/cats`)
+        .get(`/api/dash/subswithoutpagination`)
         .then((res) => {
-          this.cats = res.data.cats;
+          this.subs = res.data.data;
         })
         .catch(() => {
           this.$router.push({ name: "serverErr" });
@@ -221,7 +244,7 @@ export default {
     },
 
     selectImage() {
-      this.form.image = this.$refs.image.files[0];
+      this.form.images = this.$refs.image.files;
     },
   },
 };

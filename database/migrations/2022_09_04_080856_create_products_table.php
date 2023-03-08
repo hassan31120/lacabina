@@ -16,16 +16,19 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->longText('desc');
-            $table->longText('ads');
-            $table->string('ref1')->nullable();
-            $table->string('ref2')->nullable();
-            $table->string('ref3')->nullable();
+            $table->text('description');
+            $table->string('amount');
             $table->string('image');
-            $table->double('price');
-            $table->unsignedBigInteger('cat_id');
-            $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade')
+            $table->string('image2')->nullable();
+            $table->string('image3')->nullable();
+            $table->string('image4')->nullable();
+            $table->string('image5')->nullable();
+            $table->float('old_price');
+            $table->float('new_price');
+            $table->unsignedBigInteger('sub_id');
+            $table->foreign('sub_id')->references('id')->on('sub_categories')->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->tinyInteger('is_special')->default(0);
             $table->timestamps();
         });
     }

@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('number');
-            $table->text('desc');
-            $table->string('field');
+            $table->string('title');
+            $table->unsignedBigInteger('cat_id');
+            $table->foreign('cat_id')->references('id')->on('categories')->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('sub_categories');
     }
 };

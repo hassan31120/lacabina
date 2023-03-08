@@ -16,6 +16,9 @@ import edit_catPage from "../pages/cats/edit_catPage.vue";
 import subsPage from "../pages/subs/subsPage.vue";
 import add_subPage from "../pages/subs/add_subPage.vue";
 import edit_subPage from "../pages/subs/edit_subPage.vue";
+import bannersPage from "../pages/banners/bannersPage.vue";
+import add_bannerPage from "../pages/banners/add_bannerPage.vue";
+import edit_bannerPage from "../pages/banners/edit_bannerPage.vue";
 import login from "../components/auth/login.vue";
 import error404 from "../components/errors/error404.vue";
 import error500 from "../components/errors/error500.vue";
@@ -297,6 +300,51 @@ const routes = [
         path: "/edit_sub/:id",
         name: "edit_sub",
         component: edit_subPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch(() => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/banners",
+        name: "banners",
+        component: bannersPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/add_banner",
+        name: "add_banner",
+        component: add_bannerPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/edit_banner/:id",
+        name: "edit_banner",
+        component: edit_bannerPage,
         beforeEnter: (to, from, next) => {
             axios
                 .get(`api/authenticated`)

@@ -13,14 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('motions', function (Blueprint $table) {
+        Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->text('desc')->nullable();
+            $table->string('title');
+            $table->text('description');
+            $table->string('amount');
             $table->string('image')->nullable();
-            $table->string('link');
-            $table->unsignedBigInteger('cat_id');
-            $table->foreign('cat_id')->references('id')->on('motion_cats')->onDelete('cascade')
+            $table->float('old_price');
+            $table->float('new_price');
+            $table->integer('quantity')->default(1);
+            $table->unsignedBigInteger('cart_id');
+            $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->timestamps();
         });
@@ -33,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('motions');
+        Schema::dropIfExists('cart_items');
     }
 };

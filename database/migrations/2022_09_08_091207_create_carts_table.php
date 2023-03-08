@@ -13,9 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('graphic_cats', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->float('subTotal')->nullable();
+            $table->float('total')->nullable();
+            $table->float('grandTotal')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('graphic_cats');
+        Schema::dropIfExists('carts');
     }
 };

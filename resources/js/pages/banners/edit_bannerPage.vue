@@ -2,17 +2,17 @@
   <div class="wrapper">
     <navbar />
     <sidebar />
-    <add_cat />
+    <edit_banner />
   </div>
 </template>
 
 <script>
 import navbar from "../../components/layouts/navbar.vue";
 import sidebar from "../../components/layouts/sidebar.vue";
-import add_cat from "../../components/products/add_cat.vue";
+import edit_banner from "../../components/banners/edit.vue";
 export default {
-  name: "add_productCatPage",
-  components: { navbar, sidebar, add_cat },
+  name: "edit_bannerPage",
+  components: { navbar, sidebar, edit_banner },
 };
 </script>
 

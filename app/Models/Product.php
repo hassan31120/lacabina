@@ -15,11 +15,6 @@ class Product extends Model
         'description',
         'description_en',
         'amount',
-        'image',
-        'image2',
-        'image3',
-        'image4',
-        'image5',
         'old_price',
         'new_price',
         'sub_id',
@@ -28,5 +23,9 @@ class Product extends Model
 
     public function subcategories(){
         return $this->belongsTo(SubCategory::class, 'sub_id');
+    }
+
+    public function images(){
+        return $this->hasMany(Product_Image::class, 'product_id');
     }
 }

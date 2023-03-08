@@ -7,20 +7,34 @@
       <form @submit.prevent="saveForm">
         <div class="card shadow mb-4">
           <div class="card-header">
-            <strong class="card-title">إضافة قسم منتجات جديد</strong>
+            <strong class="card-title">تعديل الصورة</strong>
           </div>
           <div class="card-body">
             <div class="row">
               <div class="col-md-6 align-self-center">
                 <div class="form-group mb-3">
-                  <label for="simpleinput">الإسم</label>
+                  <label for="simpleinput">العنوان</label>
                   <input
                     type="text"
                     id="simpleinput"
                     class="form-control"
-                    v-model="this.form.name"
+                    v-model="form.title"
                   />
                   <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="example-email">الصورة</label>
+                  <input
+                    type="file"
+                    id="example-email"
+                    name="example-email"
+                    class="form-control"
+                    ref="file"
+                    @change="selectFile"
+                  />
+                  <span class="text-danger" v-if="errors.price">{{
+                    errors.price[0]
+                  }}</span>
                 </div>
                 <button
                   type="submit"
@@ -37,7 +51,7 @@
               </div>
               <!-- /.col -->
               <div class="col-md-6">
-                <img src="@/assets/Uploading.gif" alt="" />
+                <img :src="form.image" alt="image" class="img-thumbnail" />
               </div>
             </div>
           </div>
@@ -51,20 +65,23 @@
 import loadingPage from "../layouts/laoding.vue";
 
 export default {
-  name: "add_cat",
+  name: "edit_banner",
   components: { loadingPage },
   data() {
     return {
       loading: false,
       form: {
-        name: "",
+        title: "",
+        image: "",
       },
       errors: [],
+      id: this.$route.params.id,
     };
   },
-  mounted() {},
+  mounted() {
+    this.banner();
+  },
   methods: {
-
     alert() {
       var toastMixin = this.$swal.mixin({
         toast: true,
@@ -73,7 +90,7 @@ export default {
         animation: false,
         position: "top-right",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 4000,
         timerProgressBar: true,
         didOpen: (toast) => {
           toast.addEventListener("mouseenter", this.$swal.stopTimer);
@@ -82,28 +99,51 @@ export default {
       });
       toastMixin.fire({
         animation: true,
-        title: "تم إضافة القسم بنجاح",
+        title: "تم تعديل الصورة بنجاح",
       });
     },
-
+    async banner() {
+      this.loading = true;
+      await axios
+        .get(`/api/dash/banner/show/${this.id}`)
+        .then((res) => {
+          this.form = res.data.banner;
+        })
+        .catch((err) => {
+          this.$router.push({ name: "error404" });
+        console.log(err)
+        });
+      this.loading = false;
+    },
     async saveForm() {
       this.loading = true;
       await axios
-        .post(`/api/dash/cat/store`, this.form, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
+        .post(
+          `/api/dash/banner/edit/${this.id}`,
+          {
+            title: this.form.title,
+            image: this.form.image,
           },
-        })
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then(() => {
-          this.form.name = "";
-          this.$router.push({ name: "product_cats" });
+          this.banner();
           this.alert();
+          this.errors = [];
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
+          console.log(error);
         });
       this.loading = false;
+    },
+    selectFile() {
+      this.form.image = this.$refs.file.files[0];
     },
   },
 };

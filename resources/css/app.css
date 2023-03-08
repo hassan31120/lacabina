@@ -109,3 +109,14 @@ nav ul .haha a {
 nav ul li a {
     border-radius: 5px;
 }
+
+.btn-hassan {
+    background-color: #e4b75d !important;
+    color: #fff;
+}
+
+.btn-hassan:hover {
+    background-color: #ab822f !important;
+    color: #fff;
+}
+

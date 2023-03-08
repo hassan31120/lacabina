@@ -9,8 +9,13 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
+import VueViewer from 'v-viewer';
+import 'viewerjs/dist/viewer.css';
+
+
 createApp(App)
     .use(router)
     .use(VueSweetalert2)
+    .use(VueViewer)
     .component("QuillEditor", QuillEditor)
     .mount("#app");
