@@ -21,6 +21,7 @@ class ProductsResource extends JsonResource
             'title' =>  app()->getLocale() == 'ar' ?  $this->title : $this->title_en,
             'description' =>  app()->getLocale() == 'ar' ?  $this->description : $this->description_en,
             'images' => ProductImageResource::collection($this->images),
+            'allimages' => NewProductImageResource::collection($this->images),
             'amount' => $this->amount,
             'old_price' => (float) $this->old_price,
             'new_price' => (float) $this->new_price,
@@ -28,6 +29,8 @@ class ProductsResource extends JsonResource
             'company' => app()->getLocale() == 'ar' ?  $this->subcategories->categories->title : $this->subcategories->categories->title_en,
             'name' => $this->title,
             'name_en' => $this->title_en,
+            'desc' => $this->description,
+            'desc_en' => $this->description_en,
         ];
     }
 }

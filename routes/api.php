@@ -139,6 +139,10 @@ Route::group(['prefix' => 'dash', 'middleware' => 'isAdmin'], function () {
     Route::post('product/add', [DashproductsController::class, 'store']);
     Route::post('product/edit/{id}', [DashproductsController::class, 'update']);
     Route::post('product/del/{id}', [DashproductsController::class, 'destroy']);
+    Route::post('product/image/del/{id}', [DashproductsController::class, 'delImage']);
+
+    //settings
+    Route::get('settings', [DashSettingsController::class, 'index']);
 });
 
 Route::post('/dashLogin', [AuthController::class, 'dashLogin']);

@@ -212,12 +212,12 @@
           </a>
           <ul class="collapse list-unstyled pl-4 w-100" id="settings">
             <li class="nav-item">
-              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+              <router-link class="nav-link pl-3" :to="{ name: 'about' }"
                 ><span class="ml-1 item-text">كل الإعدادات</span>
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link pl-3" :to="{ name: 'add_user' }"
+              <router-link class="nav-link pl-3" :to="{ name: 'edit_settings' }"
                 ><span class="ml-1 item-text">تعديل الإعدادات</span>
               </router-link>
             </li>

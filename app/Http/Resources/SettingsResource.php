@@ -21,6 +21,12 @@ class SettingsResource extends JsonResource
             'contact' => $this->contact,
             'terms' => app()->getLocale() == 'ar' ?  $this->terms : $this->terms_en,
             'privacy' => app()->getLocale() == 'ar' ?  $this->privacy : $this->privacy_en,
+            'about_ar' => $this->about,
+            'terms_ar' => $this->terms,
+            'privacy_ar' => $this->privacy,
+            'about_en' => $this->about_en,
+            'terms_en' => $this->terms_en,
+            'privacy_en' => $this->privacy_en,
         ];
     }
 }

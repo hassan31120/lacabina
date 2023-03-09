@@ -29,6 +29,13 @@ import add_productPage from "../pages/products/add_productPage.vue";
 import edit_productPage from "../pages/products/edit_productPage.vue";
 import ordersPage from "../pages/orders/ordersPage.vue";
 import notiPage from "../pages/noti/notiPage.vue";
+import settingsPage from "../pages/settings/settingsPage.vue";
+import edit_settingsPage from "../pages/settings/edit_settingsPage.vue";
+import about from "../components/settings/about.vue";
+import terms from "../components/settings/terms.vue";
+import support from "../components/settings/support.vue";
+import privacy from "../components/settings/privacy.vue";
+import contact from "../components/settings/contact.vue";
 
 const routes = [
     {
@@ -428,6 +435,63 @@ const routes = [
                     next();
                 })
                 .catch(() => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/settings",
+        name: "settings",
+        component: settingsPage,
+        children: [
+            {
+                path: "/about",
+                name: "about",
+                component: about,
+            },
+            {
+                path: "/contact",
+                name: "contact",
+                component: contact,
+            },
+            {
+                path: "/privacy",
+                name: "privacy",
+                component: privacy,
+            },
+            {
+                path: "/terms",
+                name: "terms",
+                component: terms,
+            },
+            {
+                path: "/support",
+                name: "support",
+                component: support,
+            },
+        ],
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/edit_settings",
+        name: "edit_settings",
+        component: edit_settingsPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
                     return next({ name: "login" });
                 });
         },

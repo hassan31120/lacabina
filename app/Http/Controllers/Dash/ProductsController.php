@@ -133,4 +133,21 @@ class ProductsController extends Controller
             ], 404);
         }
     }
+
+    public function delImage($id)
+    {
+        $product = Product_Image::find($id);
+        if ($product) {
+            $product->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'product has been deleted successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such product'
+            ], 404);
+        }
+    }
 }
