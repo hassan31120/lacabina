@@ -12,10 +12,13 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import VueViewer from 'v-viewer';
 import 'viewerjs/dist/viewer.css';
 
+import loadingPage from "./components/layouts/laoding.vue";
+
 
 createApp(App)
     .use(router)
     .use(VueSweetalert2)
     .use(VueViewer)
     .component("QuillEditor", QuillEditor)
+    .component("loadingPage", loadingPage)
     .mount("#app");

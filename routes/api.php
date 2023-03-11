@@ -19,6 +19,7 @@ use App\Http\Controllers\Dash\CategoriesController as DashCategoriesController;
 use App\Http\Controllers\Dash\CityController;
 use App\Http\Controllers\Dash\NotiController;
 use App\Http\Controllers\Dash\ProductsController as DashProductsController;
+use App\Http\Controllers\Dash\SettingsController as DashSettingsController;
 use App\Http\Controllers\Dash\SubCategoriesController as DashSubCategoriesController;
 
 /*
@@ -143,7 +144,10 @@ Route::group(['prefix' => 'dash', 'middleware' => 'isAdmin'], function () {
 
     //settings
     Route::get('settings', [DashSettingsController::class, 'index']);
+    Route::post('setting/edit', [DashSettingsController::class, 'update']);
 });
 
 Route::post('/dashLogin', [AuthController::class, 'dashLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::post('setting/edit', [DashSettingsController::class, 'update']);

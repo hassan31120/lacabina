@@ -1,5 +1,5 @@
 <template>
-  <p class="pb-5" v-html="settings.about"></p>
+  <p class="pb-5" v-html="settings.about_ar"></p>
 </template>
 
 <script>
@@ -21,7 +21,6 @@ export default {
         .get(`/api/dash/settings`)
         .then((res) => {
           this.settings = res.data.settings;
-          console.log(res);
         })
         .catch(() => {
           this.$router.push({ name: "serverErr" });

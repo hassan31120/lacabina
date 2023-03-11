@@ -15,7 +15,7 @@
                 <div class="form-group mb-3" style="direction: ltr !important">
                   <label for="about">من نحن</label>
                   <QuillEditor
-                    v-model:content="form.about"
+                    v-model:content="form.about_ar"
                     content-type="html"
                     toolbar="full"
                   />
@@ -26,7 +26,7 @@
                 <div class="form-group mb-3" style="direction: ltr !important">
                   <label for="terms">الشروط والأحكام</label>
                   <QuillEditor
-                    v-model:content="form.terms"
+                    v-model:content="form.terms_ar"
                     content-type="html"
                     toolbar="full"
                   />
@@ -37,7 +37,7 @@
                 <div class="form-group mb-3" style="direction: ltr !important">
                   <label for="privacy">سياسة الخصوصية</label>
                   <QuillEditor
-                    v-model:content="form.privacy"
+                    v-model:content="form.privacy_ar"
                     content-type="html"
                     toolbar="full"
                   />
@@ -57,36 +57,36 @@
                   }}</span>
                 </div>
                 <div class="form-group mb-3" style="direction: ltr !important">
-                  <label for="about">Terms</label>
+                  <label for="terms_en">Terms</label>
                   <QuillEditor
-                    v-model:content="form.about"
+                    v-model:content="form.terms_en"
                     content-type="html"
                     toolbar="full"
                   />
-                  <span class="text-danger" v-if="errors.about">{{
-                    errors.about[0]
+                  <span class="text-danger" v-if="errors.terms_en">{{
+                    errors.terms_en[0]
                   }}</span>
                 </div>
                 <div class="form-group mb-3" style="direction: ltr !important">
-                  <label for="about">About us</label>
+                  <label for="about_en">About us</label>
                   <QuillEditor
-                    v-model:content="form.about"
+                    v-model:content="form.about_en"
                     content-type="html"
                     toolbar="full"
                   />
-                  <span class="text-danger" v-if="errors.about">{{
-                    errors.about[0]
+                  <span class="text-danger" v-if="errors.about_en">{{
+                    errors.about_en[0]
                   }}</span>
                 </div>
                 <div class="form-group mb-3" style="direction: ltr !important">
-                  <label for="about">Privacy</label>
+                  <label for="privacy_en">Privacy</label>
                   <QuillEditor
-                    v-model:content="form.about"
+                    v-model:content="form.privacy_en"
                     content-type="html"
                     toolbar="full"
                   />
-                  <span class="text-danger" v-if="errors.about">{{
-                    errors.about[0]
+                  <span class="text-danger" v-if="errors.privacy_en">{{
+                    errors.privacy_en[0]
                   }}</span>
                 </div>
               </div>
@@ -116,13 +116,13 @@ export default {
   data() {
     return {
       form: {
-        about: "",
-        terms: "",
+        about_ar: "",
+        terms_ar: "",
         contact: "",
-        privacy: "",
-        email: "",
-        mobile: "",
-        whatsapp: "",
+        privacy_ar: "",
+        about_en: "",
+        privacy_en: "",
+        terms_en: "",
       },
       errors: [],
       loading: false,
@@ -155,12 +155,24 @@ export default {
     async saveForm() {
       this.loading = true;
       await axios
-        .post(`/api/setting/edit`, this.form, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
+        .post(
+          `/api/dash/setting/edit`,
+          {
+            terms: this.form.terms_ar,
+            privacy: this.form.privacy_ar,
+            about: this.form.about_ar,
+            terms_en: this.form.terms_en,
+            privacy_en: this.form.privacy_en,
+            about_en: this.form.about_en,
+            contact: this.form.contact,
           },
-        })
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
         .then(() => {
           this.$router.push({ name: "about" });
           this.alert();
@@ -174,9 +186,9 @@ export default {
     async fetchSettings() {
       this.loading = true;
       await axios
-        .get(`/api/settings`)
+        .get(`/api/dash/settings`)
         .then((res) => {
-          this.form = res.data.setting;
+          this.form = res.data.settings;
         })
         .catch(() => {
           this.$router.push({ name: "serverErr" });

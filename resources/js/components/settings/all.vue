@@ -25,7 +25,7 @@ export default {
   name: "settings",
   data() {
     return {
-      settings: [],
+      settings: {},
       loading: false,
     };
   },

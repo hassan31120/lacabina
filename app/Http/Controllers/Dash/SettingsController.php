@@ -25,19 +25,23 @@ class SettingsController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $setting = Setting::find($id);
+        $setting = Setting::find(1);
         $request->validate([
             'about'     => 'required',
+            'about_en'  => 'required',
             'contact'   => 'required',
             'terms'     => 'required',
-            'privacy'   => 'required'
+            'terms_en'  => 'required',
+            'privacy'   => 'required',
+            'privacy_en'    => 'required'
         ]);
-
         $data = $request->all();
-
         $setting->update($data);
-        return redirect()->back()->with('success', 'تم تعديل الإعدادات بنجاح');
+        return response()->json([
+            'success' => true,
+            'message' => 'settings has been updated successfully'
+        ], 200);
     }
 }

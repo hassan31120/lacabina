@@ -18,9 +18,9 @@ export default {
   methods: {
     async fetchSettings() {
       await axios
-        .get(`api/settings`)
+        .get(`api/dash/settings`)
         .then((res) => {
-          this.settings = res.data.setting;
+          this.settings = res.data.settings;
         })
         .catch(() => {
           this.$router.push({ name: "serverErr" });
