@@ -17,13 +17,17 @@ class OrdersResource extends JsonResource
         // return parent::toArray($request);
 
         return [
-            'total' => (double) $this->total,
+            'id' => $this->id,
+            'name' => $this->users->name,
+            'email' => $this->users->email,
+            'number' => $this->users->number,
+            'total' => (float) $this->total,
             'status' => $this->status,
+            'image' => asset($this->orderDetails[0]->image),
             'pay_status' => $this->pay_status,
-            'grandTotal' => (double) $this->grandTotal,
-            'created_at' => $this->created_at,
+            'grandTotal' => (float) $this->grandTotal,
+            'created_at' => $this->created_at->diffForhumans(),
             'products' => DetailsResource::collection($this->orderDetails)
         ];
-
     }
 }

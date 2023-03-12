@@ -55,7 +55,7 @@ class NotiController extends Controller
             }
         }
 
-        $SERVER_API_KEY = 'AAAA57zOeQM:APA91bHiMkyhWVsq6VPQ68k6j5mzut4a5wrlmTuP-vtgb00Xctokj1cSmBQz7ce0IRetqhUeXqu4hvkG-SX8U9Hl8rr9KvEtO-oteZwK1FB8j5r9X6LA6v1wf8Qwcpwr0ibPExaR9CPg';
+        $SERVER_API_KEY = 'AAAAYbxWuYk:APA91bGBUZvOaCjr86UMG5aNkNCDaJ6CdVeBzHc6Ylv1OZoVK8q3Sj1ZYpinpBcUhR2C9msHK-wqykBd2hhAdDhJhqwQdnoO1wYoe7pZNPP7lKHeoNGKK9i9nffA9XbptskVlAK5Wt9O';
 
         $token = [];
         foreach ($users as $user) {

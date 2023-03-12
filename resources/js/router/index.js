@@ -28,6 +28,7 @@ import productsPage from "../pages/products/productsPage.vue";
 import add_productPage from "../pages/products/add_productPage.vue";
 import edit_productPage from "../pages/products/edit_productPage.vue";
 import ordersPage from "../pages/orders/ordersPage.vue";
+import oneOrderPage from "../pages/orders/oneOrderPage.vue";
 import notiPage from "../pages/noti/notiPage.vue";
 import settingsPage from "../pages/settings/settingsPage.vue";
 import edit_settingsPage from "../pages/settings/edit_settingsPage.vue";
@@ -500,6 +501,21 @@ const routes = [
         path: "/orders",
         name: "orders",
         component: ordersPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch(() => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/order/:id",
+        name: "order",
+        component: oneOrderPage,
         beforeEnter: (to, from, next) => {
             axios
                 .get(`api/authenticated`)

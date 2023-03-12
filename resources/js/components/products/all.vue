@@ -21,7 +21,9 @@
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ product.name }}</td>
             <td>
-                <button type="button" @click="show(product.images)" class="btn btn-hassan">عرض الصور</button>
+              <button type="button" @click="show(product.images)" class="btn btn-hassan">
+                عرض الصور
+              </button>
             </td>
             <td>{{ product.new_price }}</td>
             <td class="actions">

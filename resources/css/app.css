@@ -112,11 +112,11 @@ nav ul li a {
 
 .btn-hassan {
     background-color: #e4b75d !important;
-    color: #fff;
+    color: #fff !important;
 }
 
 .btn-hassan:hover {
     background-color: #ab822f !important;
-    color: #fff;
+    color: #fff !important;
 }
 

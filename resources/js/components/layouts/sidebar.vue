@@ -236,7 +236,7 @@
           </a>
           <ul class="collapse list-unstyled pl-4 w-100" id="orders">
             <li class="nav-item">
-              <router-link class="nav-link pl-3" :to="{ name: 'users' }"
+              <router-link class="nav-link pl-3" :to="{ name: 'orders' }"
                 ><span class="ml-1 item-text">كل الطلبيات</span>
               </router-link>
             </li>

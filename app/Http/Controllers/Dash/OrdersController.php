@@ -3,23 +3,42 @@
 namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrdersResource;
 use App\Models\Order;
-use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class OrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function pending()
     {
         Carbon::setLocale('ar');
-        $orders = Order::where('status', 'pending')->get();
-        return view('admin.orders.index', compact('orders'));
+        $orders = Order::paginate(6);
+        if (count($orders) > 0) {
+            return OrdersResource::collection($orders);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such orders'
+            ], 200);
+        }
+    }
+
+    public function order($id)
+    {
+        Carbon::setLocale('ar');
+        $order = Order::find($id);
+        if ($order) {
+            return response()->json([
+                'success' => true,
+                'order' => new OrdersResource($order)
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such order'
+            ], 404);
+        }
     }
 
     public function accepted()
@@ -40,73 +59,5 @@ class OrdersController extends Controller
     {
         Order::where('id', $id)->update(['status' => $request->status]);
         return back();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $order = Order::find($id);
-        $details = OrderDetail::where('order_id', $id)->get();
-        return view('admin.orders.show', compact('details', 'order'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

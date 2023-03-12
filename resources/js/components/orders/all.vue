@@ -13,8 +13,9 @@
             <th scope="col">الإسم</th>
             <th scope="col">البريد الالكتروني</th>
             <th scope="col">الرقم</th>
-            <th scope="col">وصف الطلب</th>
-            <th scope="col">المجال</th>
+            <th scope="col">حالة الطلب</th>
+            <th scope="col">السعر</th>
+            <th scope="col">تفاصيل الطلب</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -24,8 +25,29 @@
             <td>{{ order.name }}</td>
             <td>{{ order.email }}</td>
             <td>{{ order.number }}</td>
-            <td>{{ order.desc }}</td>
-            <td>{{ order.field }}</td>
+            <td>
+              <span
+                v-if="order.status == 'Pending'"
+                class="badge badge-pill badge-warning"
+                >{{ order.status }}</span
+              >
+              <span
+                v-if="order.status == 'Accepted'"
+                class="badge badge-pill badge-success"
+                >{{ order.status }}</span
+              >
+              <span
+                v-if="order.status == 'Declined'"
+                class="badge badge-pill badge-danger"
+                >{{ order.status }}</span
+              >
+            </td>
+            <td>{{ order.grandTotal }}</td>
+            <td>
+              <router-link :to="{ name: 'order', params: { id: order.id } }"
+                ><button class="btn btn-hassan">عرض التفاصيل</button>
+              </router-link>
+            </td>
             <td class="actions">
               <button type="button" @click="delCat(order.id)">
                 <i class="fe fe-trash fe-16"></i>
@@ -97,7 +119,7 @@ export default {
 
     async fetchorders(page_url) {
       this.loading = true;
-      page_url = page_url || `api/dash/orders`;
+      page_url = page_url || `api/dash/orders/pending`;
       await axios
         .get(page_url)
         .then((res) => {
