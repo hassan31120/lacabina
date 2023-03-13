@@ -13,7 +13,7 @@ class OrdersController extends Controller
     public function pending()
     {
         Carbon::setLocale('ar');
-        $orders = Order::paginate(6);
+        $orders = Order::where('status', 'pending')->paginate(6);
         if (count($orders) > 0) {
             return OrdersResource::collection($orders);
         } else {
@@ -21,6 +21,51 @@ class OrdersController extends Controller
                 'success' => false,
                 'message' => 'there is no such orders'
             ], 200);
+        }
+    }
+
+    public function accepted()
+    {
+        Carbon::setLocale('ar');
+        $orders = Order::where('status', 'accepted')->paginate(6);
+        if (count($orders) > 0) {
+            return OrdersResource::collection($orders);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such orders'
+            ], 200);
+        }
+    }
+
+    public function declined()
+    {
+        Carbon::setLocale('ar');
+        $orders = Order::where('status', 'declined')->paginate(6);
+        if (count($orders) > 0) {
+            return OrdersResource::collection($orders);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such orders'
+            ], 200);
+        }
+    }
+
+    public function changeStatus(Request $request, $id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            $order->update(['status' => $request->status]);
+            return response()->json([
+                'success' => true,
+                'message' => 'status has been updated successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such order'
+            ], 404);
         }
     }
 
@@ -39,25 +84,5 @@ class OrdersController extends Controller
                 'message' => 'there is no such order'
             ], 404);
         }
-    }
-
-    public function accepted()
-    {
-        Carbon::setLocale('ar');
-        $orders = Order::where('status', 'accepted')->get();
-        return view('admin.orders.accepted', compact('orders'));
-    }
-
-    public function rejected()
-    {
-        Carbon::setLocale('ar');
-        $orders = Order::where('status', 'rejected')->get();
-        return view('admin.orders.rejected', compact('orders'));
-    }
-
-    public function changeStatus(Request $request, $id)
-    {
-        Order::where('id', $id)->update(['status' => $request->status]);
-        return back();
     }
 }

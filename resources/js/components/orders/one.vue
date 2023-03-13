@@ -20,33 +20,47 @@
               <div class="card-body">
                 <div class="mb-3 d-flex justify-content-between">
                   <div>
-                    <span class="me-3">{{ order.created_at }}</span>
-                    <span class="me-3">#{{ order.id }}</span>
-                    <span class="me-3">{{ order.pay_status }}</span>
-                    <span class="badge rounded-pill bg-info">{{ order.status }}</span>
+                    <span class="me-3 mr-2"> {{ order.created_at }} </span>
+                    <span class="me-3 mr-2"> {{ order.pay_status }} </span>
+                    <span
+                      v-if="order.status == 'Pending'"
+                      class="badge badge-pill badge-warning"
+                      >{{ order.status }}</span
+                    >
+                    <span
+                      v-if="order.status == 'Accepted'"
+                      class="badge badge-pill badge-success"
+                      >{{ order.status }}</span
+                    >
+                    <span
+                      v-if="order.status == 'Declined'"
+                      class="badge badge-pill badge-danger"
+                      >{{ order.status }}</span
+                    >
                   </div>
                 </div>
                 <table class="table table-borderless">
                   <tbody>
-                    <tr>
+                    <tr v-for="product in order.products" :key="product.id">
                       <td>
                         <div class="d-flex mb-2">
                           <div class="flex-shrink-0">
                             <img
-                              :src="order.image"
+                              :src="product.image"
                               alt="image"
                               width="100"
-                              class="img-thumbnail"
+                              height="80"
+                              style="object-fit: cover"
                             />
                           </div>
                           <div
                             class="flex-lg-grow-1 ms-3"
                             style="margin-right: 20px; margin-top: 5px"
                           >
-                            <h6 class="small mb-0">
-                              {{ order.name }}
+                            <h6 class="mb-3 mt-2">
+                              {{ product.title }}
                             </h6>
-                            <span class="small">{{ order.name }}</span>
+                            <span class="">الكمية : {{ product.quantity }}</span>
                           </div>
                         </div>
                       </td>
@@ -54,75 +68,86 @@
                         class="text-end"
                         style="margin-top: 25px; position: absolute; left: 20px"
                       >
-                        {{ order.name }}
+                        {{ product.new_price }}
                       </td>
                     </tr>
                   </tbody>
+                  <hr />
                   <tfoot style="position: relative; top: 25px; right: 20px">
                     <tr>
                       <td colspan="2">سعر الطلب</td>
                       <td class="text-end" style="position: absolute; left: 20px">
-                        {{ order.name }}
+                        {{ order.total }}
                       </td>
                     </tr>
                     <tr>
                       <td colspan="2">سعر الشحن</td>
                       <td class="text-end" style="position: absolute; left: 20px">
-                        {{ order.name }}
+                        {{ order.shipping }}
                       </td>
                     </tr>
                     <tr class="fw-bold">
                       <td colspan="2">الإجمالي</td>
                       <td class="text-end" style="position: absolute; left: 20px">
-                        {{ order.name }}
+                        {{ order.grandTotal }}
                       </td>
                     </tr>
                   </tfoot>
                 </table>
               </div>
             </div>
-            <!-- Payment -->
+          </div>
+          <div class="col-lg-4">
+            <!-- user info -->
             <div class="card mb-4">
               <div class="card-body">
                 <div class="row">
-                  <div class="col-lg-6">
-                    <h3 class="h6">طريقة الدفع</h3>
-                    الإجمالي: {{ order.name }} <br />
-                    <span class="badge bg-success rounded-pill">{{ order.name }}</span>
-                  </div>
-                  <div class="col-lg-6">
-                    <h3 class="h6">عنوان التوصيل</h3>
-                    <address>
-                      <strong>{{ order.name }}</strong
-                      ><br />
-                      <p>{{ order.name }}</p>
-                      <p>{{ order.name }}</p>
-                    </address>
+                  <div class="col-lg-12">
+                    <h6>معلومات المشتري</h6>
+                    <hr>
+                    الاسم: {{ order.name }} <br />
+                    البريد الالكتروني: {{ order.email }} <br />
+                    الهاتف: {{ order.number }} <br />
+
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-lg-4">
-            <!-- Customer Notes -->
+
+            <!-- Payment -->
             <div class="card mb-4">
               <div class="card-body">
-                <h3 class="h6">ملاحظات العميل</h3>
-                <p>{{ order.name }}</p>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h6>طريقة الدفع</h6>
+                    <hr>
+                    الإجمالي: {{ order.grandTotal }} <br />
+                    <span>{{ order.pay_status }}</span>
+                  </div>
+                </div>
               </div>
             </div>
+
             <div class="card mb-4">
               <!-- Shipping information -->
               <div class="card-body">
-                <h3 class="h6">معلومات الشحن</h3>
+                <h6>معلومات الشحن</h6>
                 <hr />
-                <h3 class="h6">العنوان</h3>
-                <address>
-                  <strong>{{ order.name }}</strong
-                  ><br />
-                  <p>{{ order.name }}</p>
-                  <p>{{ order.name }}</p>
-                </address>
+                <div class="row">
+                  <div class="col-6">
+                    <h3 class="h6">العنوان</h3>
+                    <address>
+                      <strong>{{ order.address_name }}</strong
+                      ><br />
+                      <p>{{ order.address_desc }}</p>
+                    </address>
+                  </div>
+                  <div class="col-6">
+                    <h3 class="h6">المحافظة</h3>
+                    <strong>{{ order.address_gov }}</strong>
+                    <p>{{ order.address_city }}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

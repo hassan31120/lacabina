@@ -17,7 +17,7 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <span class="h2 mb-0">{{ data.users }}</span>
-                      <p class="small text-muted mb-2">عدد الأعضاء</p>
+                      <p class="small text-muted mb-2">عدد المسؤولين</p>
                     </div>
                     <div class="col-auto">
                       <span class="fe fe-32 fe-user text-muted mb-0"></span>
@@ -32,7 +32,7 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <span class="h2 mb-0">{{ data.team }}</span>
-                      <p class="small text-muted mb-2">أعضاء الفريق</p>
+                      <p class="small text-muted mb-2">عدد الأعضاء</p>
                     </div>
                     <div class="col-auto">
                       <span class="fe fe-32 fe-users text-muted mb-0"></span>
@@ -47,7 +47,7 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <span class="h2 mb-0">{{ data.partners }}</span>
-                      <p class="small text-muted mb-2">الشركاء</p>
+                      <p class="small text-muted mb-2">المحافظات</p>
                     </div>
                     <div class="col-auto">
                       <span class="fe fe-32 fe-user-plus text-muted mb-0"></span>
@@ -65,7 +65,7 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <span class="h2 mb-0">{{ data.articles }}</span>
-                      <p class="small text-muted mb-2">عدد المقالات</p>
+                      <p class="small text-muted mb-2">الأقسام الرئيسية</p>
                     </div>
                     <div class="col-auto">
                       <span class="fe fe-32 fe-book-open text-muted mb-0"></span>
@@ -80,7 +80,7 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <span class="h2 mb-0">{{ data.appCats }}</span>
-                      <p class="small text-muted mb-2">عدد أقسام البرمجة</p>
+                      <p class="small text-muted mb-2">الأقسام الفرعية</p>
                     </div>
                     <div class="col-auto">
                       <span class="fe fe-32 fe-tag text-muted mb-0"></span>
@@ -95,104 +95,10 @@
                   <div class="row align-items-center">
                     <div class="col">
                       <span class="h2 mb-0">{{ data.apps }}</span>
-                      <p class="small text-muted mb-2">عدد التطبيقات</p>
-                    </div>
-                    <div class="col-auto">
-                      <span class="fe fe-32 fe-code text-muted mb-0"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-4 mb-4">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <span class="h2 mb-0">{{ data.videos }}</span>
-                      <p class="small text-muted mb-2">عدد الفيديوهات</p>
-                    </div>
-                    <div class="col-auto">
-                      <span class="fe fe-32 fe-video text-muted mb-0"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <span class="h2 mb-0">{{ data.motionCats }}</span>
-                      <p class="small text-muted mb-2">عدد أقسام الموشن</p>
-                    </div>
-                    <div class="col-auto">
-                      <span class="fe fe-32 fe-tag text-muted mb-0"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <span class="h2 mb-0">{{ data.graphics }}</span>
-                      <p class="small text-muted mb-2">عدد التصاميم</p>
-                    </div>
-                    <div class="col-auto">
-                      <span class="fe fe-32 fe-figma text-muted mb-0"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-4 mb-4">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <span class="h2 mb-0">{{ data.graphicCats }}</span>
-                      <p class="small text-muted mb-2">عدد أقسام التصاميم</p>
-                    </div>
-                    <div class="col-auto">
-                      <span class="fe fe-32 fe-tag text-muted mb-0"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <span class="h2 mb-0">{{ data.services }}</span>
-                      <p class="small text-muted mb-2">عدد الخدمات</p>
-                    </div>
-                    <div class="col-auto">
-                      <span class="fe fe-32 fe-server text-muted mb-0"></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="card shadow">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <span class="h2 mb-0">{{ data.products }}</span>
                       <p class="small text-muted mb-2">عدد المنتجات</p>
                     </div>
                     <div class="col-auto">
-                      <span class="fe fe-32 fe-star text-muted mb-0"></span>
+                      <span class="fe fe-32 fe-code text-muted mb-0"></span>
                     </div>
                   </div>
                 </div>
@@ -232,7 +138,7 @@ export default {
           this.user = res.data;
         })
         .catch(() => {
-        //   this.$router.push({ name: "error500" });
+          //   this.$router.push({ name: "error500" });
         });
       this.loading = false;
     },
@@ -244,7 +150,7 @@ export default {
           this.data = res.data;
         })
         .catch(() => {
-        //   this.$router.push({ name: "error500" });
+          //   this.$router.push({ name: "error500" });
         });
       this.loading = false;
     },

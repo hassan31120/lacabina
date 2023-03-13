@@ -149,10 +149,13 @@ Route::group(['prefix' => 'dash', 'middleware' => 'isAdmin'], function () {
 
     //orders
     Route::get('orders/pending', [DashOrdersController::class, 'pending']);
+    Route::get('orders/accepted', [DashOrdersController::class, 'accepted']);
+    Route::get('orders/declined', [DashOrdersController::class, 'declined']);
     Route::get('order/{id}', [DashOrdersController::class, 'order']);
+    Route::post('changeStatus/{id}', [DashOrdersController::class, 'changeStatus']);
 });
 
 Route::post('/dashLogin', [AuthController::class, 'dashLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('allOrders', [DashOrdersController::class, 'index']);
+Route::get('allOrders', [DashOrdersController::class, 'pending']);

@@ -4,7 +4,7 @@
       <div><loadingPage /></div>
     </div>
     <div class="container-fluid">
-      <h2 class="h5 page-title pb-5">كل الطلبات</h2>
+      <h2 class="h5 page-title pb-5">كل الطلبات المقبولة</h2>
 
       <table class="table mt-5 table-hover">
         <thead style="background-color: #e4b75d">
@@ -16,6 +16,7 @@
             <th scope="col">حالة الطلب</th>
             <th scope="col">السعر</th>
             <th scope="col">تفاصيل الطلب</th>
+            <th scope="col">منذ</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -48,6 +49,7 @@
                 ><button class="btn btn-hassan">عرض التفاصيل</button>
               </router-link>
             </td>
+            <td>{{ order.created_at }}</td>
             <td class="actions">
               <button type="button" @click="delCat(order.id)">
                 <i class="fe fe-trash fe-16"></i>
@@ -83,7 +85,7 @@ import loadingPage from "../layouts/laoding.vue";
 import axios from "axios";
 
 export default {
-  name: "orders",
+  name: "accepted",
   components: { loadingPage },
   data() {
     return {
@@ -119,7 +121,7 @@ export default {
 
     async fetchorders(page_url) {
       this.loading = true;
-      page_url = page_url || `api/dash/orders/pending`;
+      page_url = page_url || `api/dash/orders/accepted`;
       await axios
         .get(page_url)
         .then((res) => {

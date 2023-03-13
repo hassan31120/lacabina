@@ -232,12 +232,22 @@
             class="dropdown-toggle nav-link"
           >
             <i class="fe fe-user fe-16"></i>
-            <span class="ml-3 item-text">الطلبيات</span>
+            <span class="ml-3 item-text">الطلبات</span>
           </a>
           <ul class="collapse list-unstyled pl-4 w-100" id="orders">
             <li class="nav-item">
               <router-link class="nav-link pl-3" :to="{ name: 'orders' }"
-                ><span class="ml-1 item-text">كل الطلبيات</span>
+                ><span class="ml-1 item-text">كل الطلبات المعلقة</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'accepted' }"
+                ><span class="ml-1 item-text">كل الطلبات المقبولة</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link pl-3" :to="{ name: 'declined' }"
+                ><span class="ml-1 item-text">كل الطلبات المرفوضة</span>
               </router-link>
             </li>
           </ul>
