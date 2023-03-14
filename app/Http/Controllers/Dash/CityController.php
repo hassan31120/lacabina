@@ -7,7 +7,6 @@ use App\Http\Resources\CitiesResource;
 use App\Models\City;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CityController extends Controller
 {
@@ -21,7 +20,7 @@ class CityController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'there is no such cities'
-            ], 404);
+            ], 200);
         }
     }
 
@@ -29,6 +28,7 @@ class CityController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'name_en' => 'required',
             'price' => 'required|numeric'
         ]);
 
@@ -64,6 +64,7 @@ class CityController extends Controller
         if ($city) {
             $request->validate([
                 'name' => 'required',
+                'name_en' => 'required',
                 'price' => 'required|numeric'
             ]);
             $data = $request->all();

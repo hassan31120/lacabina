@@ -10,10 +10,11 @@ class City extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'price'
+        'name', 'price', 'name_en'
     ];
 
-    public function addresses(){
+    public function addresses()
+    {
         return $this->hasMany(Address::class, 'city_id');
     }
 }

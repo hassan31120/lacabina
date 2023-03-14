@@ -20,7 +20,9 @@ class ProductsResource extends JsonResource
             'id' => $this->id,
             'title' =>  app()->getLocale() == 'ar' ?  $this->title : $this->title_en,
             'description' =>  app()->getLocale() == 'ar' ?  $this->description : $this->description_en,
-            'images' => ProductImageResource::collection($this->images),
+            'images' => $this->images->map(function ($image) {
+                return new ProductImageResource($image);
+            }),
             'allimages' => NewProductImageResource::collection($this->images),
             'amount' => $this->amount,
             'old_price' => (float) $this->old_price,

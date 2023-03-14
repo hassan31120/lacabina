@@ -15,12 +15,22 @@
             <div class="row">
               <div class="col-md-6 align-self-center">
                 <div class="form-group mb-3">
-                  <label for="simpleinput">الإسم</label>
+                  <label for="simpleinput">الاسم بالعربية</label>
                   <input
                     type="text"
                     id="simpleinput"
                     class="form-control"
                     v-model="form.name"
+                  />
+                  <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="simpleinput">الاسم بالإنجليزية</label>
+                  <input
+                    type="text"
+                    id="simpleinput"
+                    class="form-control"
+                    v-model="form.name_en"
                   />
                   <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
                 </div>
@@ -73,6 +83,7 @@ export default {
       loading: false,
       form: {
         name: "",
+        name_en: "",
         price: "",
       },
       errors: [],
@@ -109,6 +120,7 @@ export default {
           this.alert();
         })
         .catch((error) => {
+          consle.log(error);
           this.errors = error.response.data.errors;
         });
       this.loading = false;

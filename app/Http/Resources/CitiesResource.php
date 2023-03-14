@@ -17,9 +17,11 @@ class CitiesResource extends JsonResource
         // return parent::toArray($request);
 
         return [
-            'id' =>$this->id,
-            'name' => $this->name,
-            'price' => $this->price
+            'id' => $this->id,
+            'name' => app()->getLocale() == 'ar' ?  $this->name : $this->name_en,
+            'price' => $this->price,
+            'name_ar' => $this->name,
+            'name_en' => $this->name_en,
         ];
     }
 }

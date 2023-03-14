@@ -3,8 +3,16 @@
 namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrdersResource;
+use App\Http\Resources\ProductsResource;
 use App\Http\Resources\SettingsResource;
+use App\Models\Category;
+use App\Models\City;
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\Setting;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
@@ -42,6 +50,30 @@ class SettingsController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'settings has been updated successfully'
+        ], 200);
+    }
+
+    public function data()
+    {
+        Carbon::setLocale('ar');
+        $users = User::where('userType', 'user')->get();
+        $admins = User::where('userType', 'admin')->orWhere('userType', 'superadmin')->get();
+        $cities = City::all();
+        $cats = Category::all();
+        $products = Product::all();
+        $orders = Order::all();
+        $latestProducts = Product::limit(4)->latest('id')->get();
+        $latestOrders = Order::limit(4)->latest('id')->get();
+        return response()->json([
+            'success' => true,
+            'admins' => count($admins),
+            'users' => count($users),
+            'cities' => count($cities),
+            'products' => count($products),
+            'cats' => count($cats),
+            'orders' => count($orders),
+            'latestProducts' => ProductsResource::collection($latestProducts),
+            'latestOrders' => OrdersResource::collection($latestOrders),
         ], 200);
     }
 }

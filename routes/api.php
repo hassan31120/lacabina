@@ -85,7 +85,7 @@ Route::get('products', [ProductsController::class, 'index'])->middleware('lang')
 Route::get('catproducts/{id}', [ProductsController::class, 'CatProducts'])->middleware('lang');
 Route::post('searchProducts', [ProductsController::class, 'searchProducts'])->middleware('lang');
 
-Route::get('cities', [AddressesController::class, 'cities']);
+Route::get('cities', [AddressesController::class, 'cities'])->middleware('lang');
 
 Route::get('settings', [SettingsController::class, 'index'])->middleware('lang');
 
@@ -153,9 +153,13 @@ Route::group(['prefix' => 'dash', 'middleware' => 'isAdmin'], function () {
     Route::get('orders/declined', [DashOrdersController::class, 'declined']);
     Route::get('order/{id}', [DashOrdersController::class, 'order']);
     Route::post('changeStatus/{id}', [DashOrdersController::class, 'changeStatus']);
+
+    //data
+    Route::get('data', [DashSettingsController::class, 'data']);
 });
 
 Route::post('/dashLogin', [AuthController::class, 'dashLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('allOrders', [DashOrdersController::class, 'pending']);
+Route::get('subProducts/{id}', [DashProductsController::class, 'subProducts']);
+Route::get('catProducts/{id}', [DashProductsController::class, 'catProducts']);

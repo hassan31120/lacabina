@@ -15,12 +15,22 @@
             <div class="row">
               <div class="col-md-6 align-self-center">
                 <div class="form-group mb-3">
-                  <label for="simpleinput">الإسم</label>
+                  <label for="simpleinput">الاسم بالعربية</label>
                   <input
                     type="text"
                     id="simpleinput"
                     class="form-control"
-                    v-model="form.name"
+                    v-model="form.name_ar"
+                  />
+                  <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
+                </div>
+                <div class="form-group mb-3">
+                  <label for="simpleinput">الاسم بالإنجليزية</label>
+                  <input
+                    type="text"
+                    id="simpleinput"
+                    class="form-control"
+                    v-model="form.name_en"
                   />
                   <span class="text-danger" v-if="errors.name">{{ errors.name[0] }}</span>
                 </div>
@@ -72,7 +82,8 @@ export default {
     return {
       loading: false,
       form: {
-        name: "",
+        name_ar: "",
+        name_en: "",
         price: "",
       },
       errors: [],
@@ -119,7 +130,8 @@ export default {
       this.loading = true;
       await axios
         .post(`/api/dash/city/edit/${this.id}`, {
-          name: this.form.name,
+          name: this.form.name_ar,
+          name_en: this.form.name_en,
           price: this.form.price,
         })
         .then(() => {

@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductsResource;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Product_Image;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 
 
 class ProductsController extends Controller
@@ -147,6 +148,49 @@ class ProductsController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'there is no such product'
+            ], 404);
+        }
+    }
+
+    public function subProducts($id)
+    {
+        $sub = SubCategory::find($id);
+        if ($sub) {
+            $products = Product::where('sub_id', $sub->id)->paginate(10);
+            return ProductsResource::collection($products);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such subcategory'
+            ], 404);
+        }
+    }
+
+    public function catProducts($id)
+    {
+        $cat = Category::find($id);
+        if ($cat) {
+            $subs = SubCategory::where('cat_id', $cat->id)->get();
+            if (count($subs) > 0) {
+                $products = collect();
+                foreach ($subs as $sub) {
+                    $subProducts = Product::where('sub_id', $sub->id)->get();
+                    $products = $products->merge($subProducts);
+                }
+                return response()->json([
+                    'success' => true,
+                    'products' => ProductsResource::collection($products)
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'there is no such subcategories or products in this category'
+                ], 404);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'there is no such category'
             ], 404);
         }
     }

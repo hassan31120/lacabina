@@ -39,6 +39,8 @@ import terms from "../components/settings/terms.vue";
 import support from "../components/settings/support.vue";
 import privacy from "../components/settings/privacy.vue";
 import contact from "../components/settings/contact.vue";
+import subProductsPage from '../pages/subs/subProductsPage.vue';
+import catProductsPage from '../pages/cats/catProductsPage.vue';
 
 const routes = [
     {
@@ -558,7 +560,37 @@ const routes = [
                     return next({ name: "login" });
                 });
         },
-    }
+    },
+    {
+        path: "/sub_products",
+        name: "sub_products",
+        component: subProductsPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
+    {
+        path: "/cat_products",
+        name: "cat_products",
+        component: catProductsPage,
+        beforeEnter: (to, from, next) => {
+            axios
+                .get(`api/authenticated`)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    return next({ name: "login" });
+                });
+        },
+    },
 ];
 
 const router = createRouter({
